@@ -92,6 +92,28 @@ app.post("/interactions", async function (req, res) {
         },
       });
     }
+    // create command to add youtube channel to database
+    if (name === "create") {
+      const userId = req.body.member.user.id;
+      const channelName = req.body.data.options[0].value;
+      const channelId = req.body.data.options[1].value;
+      const channelUrl = req.body.data.options[2].value;
+      const channelDescription = req.body.data.options[3].value;
+      const channel = {
+        userId,
+        channelName,
+        channelId,
+        channelUrl,
+        channelDescription,
+      };
+      const response = await HasGuildCommands(channel);
+      return res.send({
+        type: InteractionResponseType.CHANNEL_MESSAGE_WITH_SOURCE,
+        data: {
+          content: response,
+        },
+      });
+    }
   }
 
   /**
